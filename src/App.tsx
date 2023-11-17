@@ -50,6 +50,24 @@ function App() {
     };
   }, [dialogRef]);
 
+  /**
+   * モーダルの外側をクリックしたときにモーダルを閉じる
+   */
+  useEffect(() => {
+    const dialogEl = dialogRef.current;
+
+    const handleBackdropClick = (event: MouseEvent) => {
+      if (event.target === dialogEl && event.target !== dialogEl?.firstChild) {
+        closeModal();
+      }
+    };
+
+    dialogEl?.addEventListener("click", handleBackdropClick);
+    return () => {
+      dialogEl?.removeEventListener("click", handleBackdropClick);
+    };
+  }, [closeModal]);
+
   return (
     <>
       <button onClick={() => openModal()}>Open Modal</button>
