@@ -1,11 +1,13 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import "./App.css";
 
 function App() {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const [trigger, setTrigger] = useState<HTMLElement | null>(null);
 
   const openModal = useCallback(() => {
     if (dialogRef.current) {
+      setTrigger(document.activeElement as HTMLElement);
       dialogRef.current.showModal();
     }
   }, []);
@@ -13,8 +15,9 @@ function App() {
   const closeModal = useCallback(() => {
     if (dialogRef.current) {
       dialogRef.current.close();
+      trigger?.focus();
     }
-  }, []);
+  }, [trigger]);
 
   return (
     <>
