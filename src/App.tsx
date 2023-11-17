@@ -9,6 +9,7 @@ function App() {
     if (dialogRef.current) {
       setTrigger(document.activeElement as HTMLElement);
       dialogRef.current.showModal();
+      document.body.style.overflow = "hidden";
     }
   }, []);
 
@@ -16,6 +17,7 @@ function App() {
     if (dialogRef.current) {
       dialogRef.current.close();
       trigger?.focus();
+      document.body.style.overflow = "";
     }
   }, [trigger]);
 
@@ -67,6 +69,16 @@ function App() {
       dialogEl?.removeEventListener("click", handleBackdropClick);
     };
   }, [closeModal]);
+
+  /**
+   * モーダルを開いたときにスクロールを禁止する
+   * （コンポーネントがアンマウントされるときにスクロールを有効に戻す）
+   */
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
 
   return (
     <>
