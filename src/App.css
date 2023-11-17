@@ -6,9 +6,13 @@
 .c-dialog {
   width: 100%;
   max-width: 500px;
-  padding: 20px;
+  padding: 0;
   border-radius: 10px;
   border: none;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   text-align: center;
+}
+
+.c-dialog__inner {
+  padding: 20px;
 }
