@@ -83,9 +83,9 @@ function App() {
   return (
     <>
       <button onClick={() => openModal()}>Open Modal</button>
-      <dialog className="c-dialog" ref={dialogRef}>
+      <dialog className="c-dialog" ref={dialogRef} aria-labelledby="title">
         <div className="c-dialog__inner">
-          <h2>タイトル</h2>
+          <h2 id="title">タイトル</h2>
           <p>このモーダルは、HTMLのdialog要素を使って実装されています。</p>
           <button onClick={() => closeModal()}>Close Modal</button>
           <button
