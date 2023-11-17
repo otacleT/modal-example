@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "./App.css";
 
 function App() {
@@ -18,6 +18,37 @@ function App() {
       trigger?.focus();
     }
   }, [trigger]);
+
+  /**
+   * フォーカストラップ
+   */
+  useEffect(() => {
+    const dialogEl = dialogRef.current;
+    const focusableElements = Array.from<HTMLElement>(
+      dialogEl?.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      ) ?? []
+    );
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Tab") {
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    };
+
+    dialogEl?.addEventListener("keydown", handleKeyDown);
+    return () => {
+      dialogEl?.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [dialogRef]);
 
   return (
     <>
